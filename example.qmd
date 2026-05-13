@@ -1,0 +1,28 @@
+---
+title: Slidebreak Example
+format: 
+  html:
+    output-file: index.html
+  revealjs: 
+    output-file: example-slides.html
+shortcodes:
+  - _extensions/slidebreak/slidebreak.lua
+---
+
+[View as slides](example-slides.html){.btn .btn-primary}
+
+## First Slide
+
+Some content here.
+
+{{< slidebreak >}}
+
+more content after slide break (slide break is invisible in html format)
+
+## Second Titled Slide
+
+More content on a new slide.
+
+## Third Titled Slide
+
+And even more content on another new slide.

@@ -1,0 +1,67 @@
+on:
+  workflow_dispatch:
+  push:
+    branches: main
+
+name: Quarto Publish
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Render
+        uses: quarto-dev/quarto-actions/render@v2
+
+      - name: Resolve rendered output directory
+        run: |
+          if [ -d "_book" ]; then
+            echo "QUARTO_OUTPUT=./_book" >> "$GITHUB_ENV"
+          elif [ -d "_site" ]; then
+            echo "QUARTO_OUTPUT=./_site" >> "$GITHUB_ENV"
+          else
+            mkdir -p _site
+            qmd_files=()
+            while IFS= read -r -d '' qmd_file; do
+              qmd_files+=("$qmd_file")
+            done < <(find . -maxdepth 1 -type f -name '*.qmd' -print0)
+            html_files=()
+            for qmd_file in "${qmd_files[@]}"; do
+              html_file="${qmd_file%.qmd}.html"
+              if [ -f "$html_file" ]; then
+                html_files+=("$html_file")
+              fi
+            done
+            if [ ${#html_files[@]} -gt 0 ]; then
+              for html_file in "${html_files[@]}"; do
+                cp "$html_file" _site/
+              done
+              echo "QUARTO_OUTPUT=./_site" >> "$GITHUB_ENV"
+            else
+              echo "No rendered output found. Ensure Quarto render succeeded and produced _book/, _site/, or .html output from top-level .qmd files."
+              exit 1
+            fi
+          fi
+
+      - name: Ensure index page exists
+        run: |
+          if [ ! -f "${{ env.QUARTO_OUTPUT }}/index.html" ]; then
+            first_html="$(find "${{ env.QUARTO_OUTPUT }}" -maxdepth 1 -type f -name '*.html' | head -n 1)"
+            if [ -n "$first_html" ]; then
+              cp "$first_html" "${{ env.QUARTO_OUTPUT }}/index.html"
+            fi
+          fi
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: ${{ env.QUARTO_OUTPUT }}/
+          clean-exclude: pr-preview/
+          force: false
