@@ -1,0 +1,7 @@
+name: myextension
+author: Your Name
+version: 0.0.1
+quarto-required: ">=1.2.0"
+contributes:
+  shortcodes:
+    - myextension.lua

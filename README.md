@@ -1,48 +1,55 @@
-# slidebreak
+# Quarto Extension Template
 
-A [Quarto](https://quarto.org/) shortcode extension that inserts an untitled
-slide break in presentation formats (RevealJS, PowerPoint, Beamer) while
-having no effect in document formats (HTML, DOCX).
+A template repository for creating [Quarto](https://quarto.org/) extensions.
+
+## Using This Template
+
+1. Click **"Use this template"** on GitHub to create a new repository from this template.
+2. Rename the `_extensions/myextension/` directory to match your extension name.
+3. Update `_extensions/myextension/_extension.yml` with your extension's name, author, and version.
+4. Replace `_extensions/myextension/myextension.lua` with your extension's Lua code.
+5. Update `example.qmd` to demonstrate your extension's usage.
+6. Update this `README.md` to describe your extension.
+
+## Repository Structure
+
+```
+.
+├── _extensions/
+│   └── myextension/          # Rename to your extension name
+│       ├── _extension.yml    # Extension metadata
+│       └── myextension.lua   # Extension implementation
+├── example.qmd               # Example document demonstrating the extension
+├── _quarto.yml               # Quarto project settings
+└── README.md
+```
 
 ## Installation
 
-```bash
-quarto add d-morrison/slidebreak
-```
+Once published, users can install your extension with:
 
-This installs the extension into `_extensions/d-morrison/slidebreak/` in your
-Quarto project.
+```bash
+quarto add username/repo-name
+```
 
 ## Usage
 
-Enable the shortcode script in your document metadata:
+Enable your extension's shortcode in the document YAML front matter:
 
 ```yaml
 shortcodes:
-  - _extensions/slidebreak/slidebreak.lua
+  - _extensions/myextension/myextension.lua
 ```
 
 Then use the shortcode in your document:
 
 ```markdown
-## First Section
-
-Some content here.
-
-{{< slidebreak >}}
-
-## Second Section
-
-More content here.
+{{< myextension >}}
 ```
 
-## Behavior
+## Resources
 
-- **Presentation formats (RevealJS, PowerPoint, Beamer)**: Inserts a slide
-  break (`---`), creating a new untitled slide
-- **Document formats (HTML, DOCX, and others)**: Does nothing — the shortcode
-  is silently ignored
+- [Quarto Extensions Documentation](https://quarto.org/docs/extensions/)
+- [Creating Quarto Shortcodes](https://quarto.org/docs/extensions/shortcodes.html)
+- [Quarto Lua API Reference](https://quarto.org/docs/extensions/lua-api.html)
 
-## Example
-
-See [`example.qmd`](example.qmd) for a minimal demonstration.

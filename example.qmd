@@ -1,28 +1,16 @@
 ---
-title: Slidebreak Example
-format: 
+title: My Extension Example
+format:
   html:
     output-file: index.html
-  revealjs: 
-    output-file: example-slides.html
 shortcodes:
-  - _extensions/slidebreak/slidebreak.lua
+  - _extensions/myextension/myextension.lua
 ---
 
-[View as slides](example-slides.html){.btn .btn-primary}
+This document demonstrates the `myextension` shortcode.
 
-## First Slide
+## Usage
 
-Some content here.
+Use the shortcode in your document like this:
 
-{{< slidebreak >}}
-
-more content after slide break (slide break is invisible in html format)
-
-## Second Titled Slide
-
-More content on a new slide.
-
-## Third Titled Slide
-
-And even more content on another new slide.
+{{< myextension >}}

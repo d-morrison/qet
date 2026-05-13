@@ -1,4 +1,4 @@
-# GitHub Copilot Setup Steps for slidebreak
+# GitHub Copilot Setup Steps for Quarto Extension Template
 #
 # This workflow configures the GitHub Copilot coding agent's environment
 # by preinstalling Quarto.
